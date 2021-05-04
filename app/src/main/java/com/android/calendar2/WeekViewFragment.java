@@ -2,15 +2,22 @@ package com.android.calendar2;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link WeekViewFragment#newInstance} factory method to
+ * Use the {@link MonthViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class WeekViewFragment extends Fragment {
@@ -34,11 +41,11 @@ public class WeekViewFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment WeekViewFragment.
+     * @return A new instance of fragment MonthViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WeekViewFragment newInstance(String param1, String param2) {
-        WeekViewFragment fragment = new WeekViewFragment();
+    public static MonthViewFragment newInstance(String param1, String param2) {
+        MonthViewFragment fragment = new MonthViewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,7 +65,27 @@ public class WeekViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_week_view, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_week_view, container, false);
+
+        ViewPager2 vpPager = rootView.findViewById(R.id.vpPager2);
+        FragmentStateAdapter adapter = new WeekCalendarAdapter(this);
+        vpPager.setAdapter(adapter);
+        //vpPager.setCurrentItem(50);
+
+        vpPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+                int day = position*7;
+
+                if (month == 12)
+                    year++;
+
+                ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
+                ab.setTitle(year + "년 " + month + "월");
+            }
+        });
+        return rootView;
     }
 }

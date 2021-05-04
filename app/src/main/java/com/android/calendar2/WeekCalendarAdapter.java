@@ -1,7 +1,5 @@
 package com.android.calendar2;
 
-import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -9,22 +7,22 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.Calendar;
 
-public class MonthCalendarAdapter extends FragmentStateAdapter {
+public class WeekCalendarAdapter extends FragmentStateAdapter {
     private static int NUM_ITEMS=100;
-    public MonthCalendarAdapter(@NonNull MonthViewFragment fragmentActivity) {
+    public WeekCalendarAdapter(@NonNull WeekViewFragment fragmentActivity) {
         super(fragmentActivity);
     }
 
     int year = Calendar.getInstance().get(Calendar.YEAR);
     int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+    int day;
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         if (month == 12)
             year++;
-        month = (Calendar.getInstance().get(Calendar.MONTH)+position)%12+1;
-
-        return MonthCalendarFragment.newInstance(year, month);
+        day = position*7;
+        return WeekCalendarFragment.newInstance(year, month, day);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.android.calendar2;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -10,6 +11,9 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +70,21 @@ public class MonthViewFragment extends Fragment {
         ViewPager2 vpPager = rootView.findViewById(R.id.vpPager);
         FragmentStateAdapter adapter = new MonthCalendarAdapter(this);
         vpPager.setAdapter(adapter);
+        //vpPager.setCurrentItem(50);
+
+        vpPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+                if (month == 12)
+                    year++;
+                month = (Calendar.getInstance().get(Calendar.MONTH)+position)%12+1;
+
+                ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
+                ab.setTitle(year + "년 " + month + "월");
+            }
+        });
         return rootView;
     }
 }

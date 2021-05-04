@@ -76,17 +76,20 @@
             android:layout_marginLeft = "20dp"/>
 
     </LinearLayout>
-    <!--달력을 나타내기 위한 그리드뷰-->
+    <!--주를 나타내기 위한 그리드뷰-->
     <GridView
-        android:drawSelectorOnTop="true"
-        android:background="@color/purple_500"
-        android:horizontalSpacing="2dp"
-        android:verticalSpacing="2dp"
-        android:id="@+id/gridview"
+        android:id="@+id/gridview2"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:listSelector="@drawable/selected"
         android:numColumns="7"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity" ></GridView>
+
+    <GridView
+        android:id="@+id/gridview3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:listSelector="@drawable/selected"
+        android:numColumns="7"></GridView>
 </LinearLayout>
