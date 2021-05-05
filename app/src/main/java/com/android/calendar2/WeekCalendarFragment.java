@@ -36,29 +36,34 @@ import java.util.Calendar;
 import static android.content.Context.WINDOW_SERVICE;
 
 public class WeekCalendarFragment extends Fragment {
-    Calendar mCal; // 캘린더 선언
+    Calendar mCal;
+    Calendar mCal2;// 캘린더 선언
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
-    int year;
-    int month;
-    int day;
+    private static final String ARG_PARAM4 = "param4";
+    //int year = Calendar.getInstance().get(Calendar.YEAR);
+    //int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+    //int day;
+
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
     private int mParam3;
+    private int mParam4;
     public WeekCalendarFragment() {
         // Required empty public constructor
     }
 
-    public static WeekCalendarFragment newInstance(int year, int month, int day) {
+    public static WeekCalendarFragment newInstance(int year, int month, int day, int day2) {
         WeekCalendarFragment fragment = new WeekCalendarFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, year);
         args.putInt(ARG_PARAM2, month);
         args.putInt(ARG_PARAM3, day);
+        args.putInt(ARG_PARAM4, day2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,32 +75,45 @@ public class WeekCalendarFragment extends Fragment {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getInt(ARG_PARAM2);
             mParam3 = getArguments().getInt(ARG_PARAM3);
+            mParam4 = getArguments().getInt(ARG_PARAM4);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        day = mParam3;
-        System.out.println(day);
+
+        int year = mParam1;
+        int month = mParam2;
         View rootView = inflater.inflate(R.layout.fragment_week_calendar, container, false);
         ArrayList<String> dayList = new ArrayList<String>();
         mCal = Calendar.getInstance();
-        // year 변수에 저장된 값을 Year에, month변수에 저장된 값을 Month에, 1을 Day에 넣는다.
-        mCal.set(Integer.parseInt(String.valueOf(mParam1)), Integer.parseInt(String.valueOf(mParam2)) - 1, 1);
+        mCal.set(Integer.parseInt(String.valueOf(year)), Integer.parseInt(String.valueOf(month)) - 1, 1);
         int dayNum = mCal.get(Calendar.DAY_OF_WEEK);
         int dayMax = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        if(dayNum>day) {
+        //mParam3;
+        int day = mParam3-dayNum;
+        int day2 = mParam4;
+        System.out.println("month"+month+"dayNum:"+dayNum+"day:"+day);
+        if(mParam3<dayNum) {
             for (int i = 1; i < dayNum; i++) {
                 dayList.add("");
             }
-            for (int i = 1; i < 8- dayList.size(); i++){ // 최대 일 수만큼 dayList에 요소를 추가한다.
-                dayList.add(String.valueOf(i+day));
+            for (int i = 1; i < 8 - dayList.size(); i++){
+                dayList.add(String.valueOf(i));
             }
         }
         else{
-            for (int i = 1; i < 8; i++){ // 최대 일 수만큼 dayList에 요소를 추가한다.
-                dayList.add(String.valueOf(i+day));
+            if(day>dayMax) {
+                System.out.println("ㄴ얌얀ㅁ얌ㄴㅇa");
+                for (int i = 1; i < dayMax-day+1; i++) {
+                    dayList.add(String.valueOf(i+day));
+                }
+            }
+            else{
+                for (int i = 1; i < 8; i++) { // 최대 일 수만큼 dayList에 요소를 추가한다.
+                    dayList.add(String.valueOf(i+day));
+                }
             }
 
 
