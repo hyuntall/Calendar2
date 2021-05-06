@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         //gridview.setLayoutParams(params);
         switch (newConfig.orientation) {
             case Configuration.ORIENTATION_LANDSCAPE:
-                System.out.println(tv.getHeight());
+                //System.out.println(tv.getHeight());
                 //gridview.setLayoutParams(params);
             case Configuration.ORIENTATION_PORTRAIT:
                 //tv.setHeight(100);

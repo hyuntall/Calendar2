@@ -11,6 +11,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -77,13 +79,13 @@ public class WeekViewFragment extends Fragment {
             public void onPageSelected(int position) {
                 int year = Calendar.getInstance().get(Calendar.YEAR);
                 int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-                int day = position*7;
+                int dm = position*7/42;
 
                 if (month == 12)
                     year++;
 
                 ActionBar ab = ((MainActivity)getActivity()).getSupportActionBar();
-                ab.setTitle(year + "년 " + month + "월");
+                ab.setTitle(year + "년 " + (month+dm) + "월");
             }
         });
         return rootView;

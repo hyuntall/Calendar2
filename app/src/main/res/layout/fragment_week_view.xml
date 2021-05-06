@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WeekViewFragment"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vpPager2"
         android:layout_width="match_parent"

@@ -18,26 +18,19 @@ public class WeekCalendarAdapter extends FragmentStateAdapter {
     int day;
     int day2;
     Calendar mCal;
-
-
+    int dm;
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         mCal = Calendar.getInstance();
         // year 변수에 저장된 값을 Year에, month변수에 저장된 값을 Month에, 1을 Day에 넣는다.
-        mCal.set(Integer.parseInt(String.valueOf(year)), Integer.parseInt(String.valueOf(month)) - 1, 1);
+        mCal.set(Integer.parseInt(String.valueOf(year)), Integer.parseInt(String.valueOf(month+dm)) - 1, 1);
         int dayNum = mCal.get(Calendar.DAY_OF_WEEK);
         int dayMax = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        day = position*7%42-dayNum+1;
-        if(day<0)
-            day=0;
-        day2 = position*7-dayNum+1;
-        int dm = (position*7+1-dayNum)/dayMax;
-        System.out.println("dm :" + dm + "month : " + (month+dm));
-        if (month == 12)
-            year++;
-        System.out.println(day + "dm :" +day2);
+        dm = (position*7)/42;
+        //System.out.println((position*7+1-dayNum) + "position" + dm + "dm" + dayNum + "dayNum" + dayMax + "dayMAx");
+        day = position;
         return WeekCalendarFragment.newInstance(year, month+dm, day, day2);
     }
 
