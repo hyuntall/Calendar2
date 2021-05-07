@@ -3,6 +3,7 @@ package com.android.calendar2;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -94,22 +95,19 @@ public class MonthCalendarFragment extends Fragment {
         for (int i = dayList.size(); i < 42; i++){
             dayList.add("");
         }
+        // id를 바탕으로 화면 레이아웃에 정의된 GridView 객체 로딩
+        GridView gridview = rootView.findViewById(R.id.gridview);
+
+        View v = inflater.inflate(R.layout.item_month, container, false);
         ArrayAdapter<String> adapt
                 = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.item_month,R.id.item_gridview,
-                dayList); // 기존에 simple_list_item_1 리소스를 사용하였으나 텍스트 정렬을 위해
+                dayList);
+        // 기존에 simple_list_item_1 리소스를 사용하였으나 텍스트 정렬을 위해
         // item_month 레이아웃을 만들어 그 내부에 만든 item_gridview를 사용하였다.
-
-        // id를 바탕으로 화면 레이아웃에 정의된 GridView 객체 로딩
-        GridView gridview = rootView.findViewById(R.id.gridview);
         // 어댑터를 GridView 객체에 연결
         gridview.setAdapter(adapt);
-        View v = inflater.inflate(R.layout.item_month, container, false);
-        int height = gridview.getHeight()/6;
-        TextView item = (TextView)v.findViewById(R.id.item_gridview);
-        System.out.println("sdsadasd"+gridview.getHeight());
-        item.setHeight(9999);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {

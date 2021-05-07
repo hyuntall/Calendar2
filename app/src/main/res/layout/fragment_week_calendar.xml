@@ -84,11 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <ListView
-                android:layout_marginTop="50dp"
-                android:id="@+id/listView"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,7 +100,16 @@
                 android:listSelector="@color/cyan"
                 android:numColumns="7"
                 android:textAlignment="gravity"></GridView>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <ListView
+                    android:layout_marginTop="50dp"
+                    android:id="@+id/listView"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
             <GridView
                 android:drawSelectorOnTop="true"
                 android:horizontalSpacing="2dp"
@@ -116,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:listSelector="@drawable/selected"
                 android:numColumns="7"></GridView>
+            </LinearLayout>
         </LinearLayout>
         </LinearLayout>
 </LinearLayout>

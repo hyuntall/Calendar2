@@ -1,10 +1,12 @@
 package com.android.calendar2;
 
-import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.Calendar;
@@ -31,5 +33,4 @@ public class MonthCalendarAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return NUM_ITEMS;
     }
-
 }
