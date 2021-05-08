@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +25,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        View grid = getLayoutInflater().inflate(R.layout.fragment_month_calendar, null, false);
+        View item = getLayoutInflater().inflate(R.layout.item_month, null, false);
+        GridView gridview = (GridView)grid.findViewById(R.id.gridview);
+        TextView tv = (TextView)item.findViewById(R.id.item_gridview);
+        //System.out.println(tv.getWidth()+"가로입니다"+tv.getHeight());
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.main_container, new MonthViewFragment());
@@ -55,22 +62,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        TextView tv = (TextView) findViewById(R.id.item_gridview);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, 100);
-        //gridview.setLayoutParams(params);
-        switch (newConfig.orientation) {
-            case Configuration.ORIENTATION_LANDSCAPE:
-                //System.out.println(tv.getHeight());
-                //gridview.setLayoutParams(params);
-            case Configuration.ORIENTATION_PORTRAIT:
-                //tv.setHeight(100);
-                break;
-        }
-    }
-
-
 }

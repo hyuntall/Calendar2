@@ -12,9 +12,9 @@
         android:id="@+id/item_gridview"
         android:layout_width="fill_parent"
         android:layout_weight="1"
-        android:layout_gravity="left"
+        android:layout_gravity="fill"
         android:gravity="center_horizontal"
         android:textSize="20sp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

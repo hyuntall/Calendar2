@@ -88,5 +88,6 @@
         android:layout_weight="1"
         android:listSelector="@drawable/selected"
         android:numColumns="7"
-        android:textAlignment="gravity" />
+        android:textAlignment="gravity"
+        android:layout_gravity="fill"/>
 </LinearLayout>

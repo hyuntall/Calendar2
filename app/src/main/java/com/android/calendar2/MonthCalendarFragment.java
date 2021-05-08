@@ -1,8 +1,10 @@
 package com.android.calendar2;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -13,15 +15,19 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,8 +78,22 @@ public class MonthCalendarFragment extends Fragment {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getInt(ARG_PARAM2);
         }
-    }
+        int orientation = getResources().getConfiguration().orientation;
+        View rootView = getLayoutInflater().inflate(R.layout.fragment_month_calendar, null, false);
+        View item = getLayoutInflater().inflate(R.layout.item_month, null, false);
+        GridView gridview = (GridView)rootView.findViewById(R.id.gridview);
+        TextView tv = (TextView)item.findViewById(R.id.item_gridview);
+        tv.getLayoutParams().height = 800;
+        ViewGroup.LayoutParams pr = new ViewGroup.LayoutParams(123, 800);
+        tv.setLayoutParams(pr);
+        if(orientation == Configuration.ORIENTATION_PORTRAIT){
+            //System.out.println("세로입니당"+tv.getLayoutParams().height);
 
+        }
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+            //System.out.println("가로입니당"+tv.getHeight());
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,20 +117,38 @@ public class MonthCalendarFragment extends Fragment {
         }
         // id를 바탕으로 화면 레이아웃에 정의된 GridView 객체 로딩
         GridView gridview = rootView.findViewById(R.id.gridview);
-
         View v = inflater.inflate(R.layout.item_month, container, false);
+        TextView tv = (TextView)v.findViewById(R.id.item_gridview);
         ArrayAdapter<String> adapt
                 = new ArrayAdapter<String>(
                 getActivity(),
-                R.layout.item_month,R.id.item_gridview,
-                dayList);
+                android.R.layout.simple_list_item_1,
+                dayList){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Cast the grid view current item as a text view
+                TextView tv_cell = (TextView) super.getView(position,convertView,parent);
+                //TextView tv = (TextView)parent.findViewById(R.id.item_gridview);
+                // Set the grid view item/cell/row height
+                tv_cell.setHeight(300); // In pixels
+                tv_cell.setBackgroundColor(Color.WHITE);
+                tv_cell.setGravity(Gravity.CENTER_HORIZONTAL);
+                // Another way to change grid view row height
+                tv_cell.getLayoutParams().height = gridview.getHeight()/6;
+
+                // Return the modified item
+                return tv_cell;
+            }
+        };
         // 기존에 simple_list_item_1 리소스를 사용하였으나 텍스트 정렬을 위해
         // item_month 레이아웃을 만들어 그 내부에 만든 item_gridview를 사용하였다.
         // 어댑터를 GridView 객체에 연결
+
         gridview.setAdapter(adapt);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
+                System.out.println("세로입니당"+gridview.getHeight()/6);
                 if(position >= dayNum-1 && position < dayMax+dayNum-1) { //그리드뷰의 n번째 요소의 내용이 1일 이상일 때 메시지를 출력한다.
                     Toast.makeText(getActivity(),
                             mParam1 + "." + mParam2 + "." + (position -(dayNum-2)),
@@ -118,10 +156,24 @@ public class MonthCalendarFragment extends Fragment {
                 }
             }
         });
-
         return rootView;
     }
-    public void onWindowFocusChanged(boolean hasFocus) {
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LayoutInflater inflater2 = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater2.inflate(R.layout.fragment_month_calendar, null);
+        View item = getLayoutInflater().inflate(R.layout.item_month, null, false);
+        GridView gridview = (GridView)view.findViewById(R.id.gridview);
+        System.out.println(view.getHeight());
+        TextView tv = (TextView)item.findViewById(R.id.item_gridview);
+        switch (newConfig.orientation) {
+            case Configuration.ORIENTATION_LANDSCAPE:
+                System.out.println(gridview.getWidth()+"가로입니다"+gridview.getHeight());
+                break;
+            case Configuration.ORIENTATION_PORTRAIT:
+                System.out.println(gridview.getWidth()+"세로입니다"+gridview.getHeight());
+                break;
+        }
     }
 }
